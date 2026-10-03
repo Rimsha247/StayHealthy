@@ -1,0 +1,3 @@
+PS C:\Users\Hp\downloads\StayHealthy\StayHealthy> '{"role":"patient","name":"Ali","email":"ali@test.com","phone":"0300123456","password":"secret1"}' | Out-File -Encoding ascii user.json
+PS C:\Users\Hp\downloads\StayHealthy\StayHealthy> curl.exe -X POST "http://localhost:8181/api/auth/register" -H "Content-Type: application/json" --data "@user.json"
+{"authtoken":"a8d5cb648fd1beb1dc2f22114214de2d","name":"Ali"}
