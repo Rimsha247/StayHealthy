@@ -1,0 +1,11 @@
+import express from 'express';import cors from 'cors';import crypto from 'crypto';
+const app=express();app.use(cors());app.use(express.json());
+const users=new Map();const tok=()=>crypto.randomBytes(16).toString('hex');
+app.post('/api/auth/register',(req,res)=>{const {role,name,email,phone,password}=req.body;
+  if(!name||!email||!phone||!password)return res.status(400).json({error:'All fields are required'});
+  if(users.has(email))return res.status(400).json({error:'User already exists'});
+  users.set(email,{role,name,email,phone,password});res.json({authtoken:tok(),name});});
+app.post('/api/auth/login',(req,res)=>{const u=users.get(req.body.email);
+  if(!u||u.password!==req.body.password)return res.status(401).json({error:'Invalid email or password'});
+  res.json({authtoken:tok(),name:u.name});});
+app.listen(8181,()=>console.log('API on http://localhost:8181'));
